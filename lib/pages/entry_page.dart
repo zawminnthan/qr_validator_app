@@ -20,7 +20,9 @@ class _EntryScreenState extends State<EntryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('QR Code Scanner'),
+        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
@@ -28,7 +30,7 @@ class _EntryScreenState extends State<EntryPage> {
             Text(
                 'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
           else*/
-            const Text('Scan a code'),
+            const Text('Scanning...'),
           Expanded(
             flex: 4,
             child: QRView(
