@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_validator_app/pages/entry_page.dart';
+import 'package:qr_validator_app/pages/scan_data_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Exit'),
             ),
+            const SizedBox(width: 20), // Add spacing between buttons
           ],
         ),
       ),
