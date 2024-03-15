@@ -3,14 +3,14 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_validator_app/models/usage_txn_model.dart';
 import 'package:qr_validator_app/pages/scan_data_page.dart';
 
-class EntryPage extends StatefulWidget {
-  const EntryPage({Key? key}) : super(key: key);
+class ExitPage extends StatefulWidget {
+  const ExitPage({Key? key}) : super(key: key);
 
   @override
-  State<EntryPage> createState() => _EntryPageState();
+  State<ExitPage> createState() => _ExitPageState();
 }
 
-class _EntryPageState extends State<EntryPage> {
+class _ExitPageState extends State<ExitPage> {
   Barcode? result;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
@@ -74,7 +74,7 @@ class _EntryPageState extends State<EntryPage> {
     if (data != null) {
       controller?.pauseCamera();
       UsageTxnModel usageTxnModel = UsageTxnModel(qrData: data,
-          status: 2,
+          status: 3,
           entryDateTime: DateTime.now().microsecondsSinceEpoch,
           exitDateTime: DateTime.now().microsecondsSinceEpoch);
       Navigator.push(
