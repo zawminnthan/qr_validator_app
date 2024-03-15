@@ -33,6 +33,7 @@ class BaseAPIService{
   static Future<ResponseModel> post(dynamic request, String method) async {
     var url = instance._baseUrl! + method;
     Dio dio = Dio();
+    dio.options.connectTimeout = const Duration(seconds: 60);
     var body = jsonEncode(request);
     dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
 
@@ -56,6 +57,7 @@ class BaseAPIService{
   static postByString(dynamic request, String method) async {
     var url = instance._baseUrl! + method;
     Dio dio = Dio();
+    dio.options.connectTimeout = const Duration(seconds: 60);
     var body = jsonEncode(request);
     dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
 
@@ -79,6 +81,7 @@ class BaseAPIService{
   static Future<ResponseModel> get({dynamic request, required String method}) async {
     var url = instance._baseUrl! + method;
     Dio dio = Dio();
+    dio.options.connectTimeout = const Duration(seconds: 60);
     var body = jsonEncode(request?.toJson());
     dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
 

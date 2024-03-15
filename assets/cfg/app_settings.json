@@ -1,3 +1,3 @@
 {
-  "api_endpoint": "http://k8s-master01.msiglobal.com.sg:30204/mbe_query_api/api/v1/mbe/"
+  "api_endpoint": "http://192.168.50.169:5500/tg_query_api/api/v1/validator/"
 }

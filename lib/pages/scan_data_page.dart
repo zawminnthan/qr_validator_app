@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_validator_app/models/usage_txn_model.dart';
+import 'package:qr_validator_app/pages/error_page.dart';
 import 'package:qr_validator_app/pages/successful_page.dart';
 import 'package:qr_validator_app/service/usage_txn_service.dart';
 
@@ -19,7 +20,10 @@ class _ScanDataPage extends State<ScanDataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .secondary,
         title: const Text('Scanned Data'),
         centerTitle: true,
       ),
@@ -36,26 +40,38 @@ class _ScanDataPage extends State<ScanDataPage> {
           ],
         ),
       ),
-        floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
-          onPressed: () async {
-            setState(() {
-              _isLoading = true;
-            });
-            //await usageTxnService.validateTxn(widget.usageTxnModel);
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
+        onPressed: () async {
+          setState(() {
+            _isLoading = true;
+          });
+          bool result = await usageTxnService.validateTxn(widget.usageTxnModel);
+          if (result) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SuccessfulPage(status: widget.usageTxnModel.status),
+                builder: (context) =>
+                    SuccessfulPage(status: widget.usageTxnModel.status),
               ),
             );
-            setState(() {
-              _isLoading = false;
-            });
-          },
-          label: _isLoading ? const CircularProgressIndicator() : const Text('Submit'),
-          icon: const Icon(Icons.add, color: Colors.white, size: 25),
-        ),
+          }else{
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ErrorPage(status: widget.usageTxnModel.status),
+              ),
+            );
+          }
+          setState(() {
+            _isLoading = false;
+          });
+        },
+        label: _isLoading ? const CircularProgressIndicator() : const Text(
+            'Submit'),
+        icon: const Icon(Icons.add, color: Colors.white, size: 25),
+      ),
     );
   }
 }
