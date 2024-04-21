@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qr_validator_app/pages/entry_page.dart';
-
-import 'exit_page.dart';
+import 'package:qr_validator_app/pages/exit_page.dart';
+import 'package:qr_validator_app/pages/setting_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _MyHomePageState();
@@ -19,35 +19,42 @@ class _MyHomePageState extends State<HomePage> {
         title: const Text('QR Validator'),
         centerTitle: true,
       ),
-      body: Center( // Center the buttons horizontally
-        child: Row( // Arrange buttons horizontally
-          mainAxisAlignment: MainAxisAlignment.center, // Center buttons within the row
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
               onPressed: () {
-                // Add your action for the first button here
-                // Navigate to the second page using Navigator.push
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const EntryPage()),
                 );
               },
-              child: const Text('Entry'),
+              child: const Text('Entry Mode'),
             ),
-            const SizedBox(width: 20), // Add spacing between buttons
+            const SizedBox(width: 20),
             ElevatedButton(
               onPressed: () {
-                // Add your action for the second button here
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ExitPage()),
                 );
               },
-              child: const Text('Exit'),
+              child: const Text('Exit Mode'),
             ),
-            const SizedBox(width: 20), // Add spacing between buttons
+            const SizedBox(width: 20),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your action for the floating action button here
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SettingPage()),
+          );
+        },
+        child: const Icon(Icons.settings),
       ),
     );
   }

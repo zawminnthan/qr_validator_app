@@ -4,8 +4,8 @@ import 'package:lottie/lottie.dart';
 class ErrorPage extends StatefulWidget {
 
   final int status;
-
-  const ErrorPage({super.key, required this.status});
+  final String message;
+  const ErrorPage({super.key, required this.status, required this.message});
 
   @override
   State<ErrorPage> createState() => _ErrorPage();
@@ -32,6 +32,15 @@ class _ErrorPage extends State<ErrorPage> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.green[800],
+                ),
+              ),
+              SizedBox(height: 20,),
+              Center(
+                child: Text('Reason: ${widget.message}',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.green[800],
+                  ),
                 ),
               ),
               const SizedBox(height: 50),
