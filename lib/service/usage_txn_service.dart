@@ -11,7 +11,7 @@ class UsageTxnService {
   Future<bool> validateTxn(UsageTxnModel req) async {
     try {
       BaseAPIService.baseUrl = BaseAPIService.url;
-      ResponseModel responseModel = await BaseAPIService.post(req.toJson(), kValidate);
+      ResponseModel responseModel = await BaseAPIService.post(req.toJson(), kUpdateQRTicketStatus);
 
       if (responseModel.responseCode == "200") {
         return true;

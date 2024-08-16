@@ -2,7 +2,7 @@ import 'json_property_name.dart';
 
 class ResponseModel{
 
-  final String responseCode;
+  final int responseCode;
   final String responseMsg;
   final dynamic responseData;
 

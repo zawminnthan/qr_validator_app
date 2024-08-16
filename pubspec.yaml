@@ -41,6 +41,9 @@ dependencies:
   dio: ^5.3.3
   lottie: ^2.6.0
   shared_preferences: ^2.2.3
+  intl: ^0.17.0
+  mqtt_client: ^10.3.0
+  webview_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +74,7 @@ flutter:
   assets:
     - assets/cfg/
     - assets/animations/
+    - assets/cfg/rsa_private_pkcs1
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

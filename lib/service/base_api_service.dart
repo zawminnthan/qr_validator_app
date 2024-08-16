@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -8,6 +9,12 @@ import '../models/json_property_name.dart';
 
 class BaseAPIService{
   static String url = GlobalConfiguration().getValue(kMbeEndpoint);
+  static String brokerHostName = GlobalConfiguration().getValue(kBrokerHostName);
+  static String clientId = GlobalConfiguration().getValue(kClientId);
+  static String port = GlobalConfiguration().getValue(kPort);
+  static String userName = GlobalConfiguration().getValue(kUserName);
+  static String password = GlobalConfiguration().getValue(kPassword);
+  static String topicName = GlobalConfiguration().getValue(kTopicName);
 
   BaseAPIService._();
 
@@ -35,7 +42,9 @@ class BaseAPIService{
     Dio dio = Dio();
     dio.options.connectTimeout = const Duration(seconds: 60);
     var body = jsonEncode(request);
-    dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
+    log('Request Data: $request');
+    log('Body: $body');
+    dio.options.headers["X-API-KEY"] = "4f9d5fe0-a964-4f11-af99-6c40de98af77";
 
     try {
       var response = await dio.post(
@@ -59,7 +68,7 @@ class BaseAPIService{
     Dio dio = Dio();
     dio.options.connectTimeout = const Duration(seconds: 60);
     var body = jsonEncode(request);
-    dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
+    dio.options.headers["X-API-KEY"] = "4f9d5fe0-a964-4f11-af99-6c40de98af77";
 
     try {
       var response = await dio.post(
@@ -83,7 +92,7 @@ class BaseAPIService{
     Dio dio = Dio();
     dio.options.connectTimeout = const Duration(seconds: 60);
     var body = jsonEncode(request?.toJson());
-    dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
+    dio.options.headers["X-API-KEY"] = "4f9d5fe0-a964-4f11-af99-6c40de98af77";
 
     try {
       var response = await dio.get(
@@ -106,7 +115,7 @@ class BaseAPIService{
     var url = instance._baseUrl! + method;
     Dio dio = Dio();
     var body = jsonEncode(request.toJson());
-    dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
+    dio.options.headers["X-API-KEY"] = "4f9d5fe0-a964-4f11-af99-6c40de98af77";
 
     try {
       var response = await dio.put(
@@ -129,7 +138,7 @@ class BaseAPIService{
     var url = instance._baseUrl! + method;
     Dio dio = Dio();
     var body = jsonEncode(request.toJson());
-    dio.options.headers["X-API-KEY"] = "0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ";
+    dio.options.headers["X-API-KEY"] = "4f9d5fe0-a964-4f11-af99-6c40de98af77";
 
     try {
       var response = await dio.delete(

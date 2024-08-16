@@ -1,3 +1,9 @@
 {
-  "api_endpoint": "http://192.168.50.169:5500/tg_query_api/api/v1/validator/"
+  "api_endpoint": "http://k8s-master01.msiglobal.com.sg:30202/qrs_query_api/v1/QRServices/",
+  "broker_host_name" : "dmpabtmq.msiglobal.com.sg",
+  "client_id": "validator_100",
+  "port": "1883",
+  "user_name": "amqadmin",
+  "password": "6yhnji9^",
+  "topic_name":  "device-qr-txnp"
 }
