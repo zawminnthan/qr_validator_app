@@ -1,17 +1,24 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_validator_app/models/order_request.dart';
+import 'package:qr_validator_app/models/prepared_pay_with_hosted_session.dart';
 import 'package:qr_validator_app/pages/failed_page.dart';
 import 'package:qr_validator_app/pages/success_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+import 'payment_processing_page.dart';
+
+class HostedSessionPaymentPage extends StatefulWidget {
+  const HostedSessionPaymentPage({super.key});
 
   @override
-  _PaymentPageState createState() => _PaymentPageState();
+  _HostedSessionPaymentPageState createState() => _HostedSessionPaymentPageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _HostedSessionPaymentPageState extends State<HostedSessionPaymentPage> {
   late Future<WebViewController> _controllerFuture;
   bool _isLoading = true; // Track loading state
 
@@ -21,7 +28,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    _controllerFuture = _initializePaymentSession();
+    _controllerFuture = _preparedPayWithHostedSession();
   }
 
   @override
@@ -61,10 +68,10 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Future<WebViewController> _initializePaymentSession() async {
+  Future<WebViewController> _preparedPayWithHostedSession() async {
     try {
-      sessionId = await fetchSessionId();
-      print('Session ID: $sessionId');
+      PreparedPayWithHostedSession data = await fetchSessionId();
+      print('Session ID: ${data.sessionId}');
       // Initialize WebViewController
       final controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -73,14 +80,15 @@ class _PaymentPageState extends State<PaymentPage> {
             onNavigationRequest: (NavigationRequest request) {
               print('Navigating to: ${request.url}'); // Add this line
 
-              if (request.url.contains('myapp://payment-success')) {
+              if (request.url.contains('myapp://auth-success')) {
                 // Payment was successful, navigate to the success page in the app
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const SuccessPage()),
+                  MaterialPageRoute(builder: (context) =>
+                  PaymentProcessingPage(preparedPayWithHostedSession: data,)),
                 );
                 return NavigationDecision.prevent;
-              } else if (request.url == 'myapp://payment-failed') {
+              } else if (request.url.contains('myapp://auth-failed')) {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const FailedPage()),
@@ -102,7 +110,7 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         )
         ..loadRequest(Uri.parse(
-            'http://10.0.2.2:3000/payment?sessionId=$sessionId')); // Replace with your actual URL
+            'http://10.0.2.2:3000/hosted_session_payament?sessionId=${data.sessionId}&merchantId=${data.merchantId}&orderId=${data.orderId}&transactionId=${data.transactionId}')); // Replace with your actual URL
 
       return controller;
     } catch (error) {
@@ -111,28 +119,31 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  Future<String> fetchSessionId() async {
+  Future<PreparedPayWithHostedSession> fetchSessionId() async {
     final dio = Dio();
-    const url = 'http://10.0.2.2:5000/mpgs-payment/api/payment/initiateHostedCheckoutForPurchase';
+    const url = 'http://10.0.2.2:5000/mpgs-payment/api/payment/preparedPayWithHostedSession';
 
+    OrderRequest request = OrderRequest(redirectResponseUrl: "myapp://payment-success",
+        amount: "100.00", currency: "MYR");
+
+    var body = jsonEncode(request);
+    log('Body: $body');
     try {
       print('Fetching session ID...');
-      final response = await dio.get(
+      final response = await dio.post(
         url,
         options: Options(
           headers: {
             'Content-Type': 'application/json',
           },
         ),
+        data: body
       );
 
       if (response.statusCode != 200) {
         throw Exception('Failed to fetch session ID');
       }
-
-      final sessionId = response.data; // Assuming the response is plain text (sessionId)
-      print('Fetched session ID: $sessionId');
-      return sessionId;
+      return PreparedPayWithHostedSession.fromJson(response.data);
     } catch (error) {
       print('Error fetching session ID: $error');
       throw error;

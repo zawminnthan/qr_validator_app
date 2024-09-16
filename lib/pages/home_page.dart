@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_validator_app/pages/entry_page.dart';
 import 'package:qr_validator_app/pages/exit_page.dart';
+import 'package:qr_validator_app/pages/hostedsession_payment_page.dart';
 import 'package:qr_validator_app/pages/payment_page.dart';
 import 'package:qr_validator_app/pages/scan_data_page.dart';
 import 'package:qr_validator_app/pages/setting_page.dart';
@@ -88,17 +89,23 @@ class _MyHomePageState extends State<HomePage> {
                       MaterialPageRoute(builder: (context) => const PaymentPage()),
                     );
                   },
-                  child: const Text('Make Payment'),
+                  child: const Text('Make Payment with HostedCheckout'),
                 ),
-                const SizedBox(width: 20),
+              ],
+            ),
+          ),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ExitPage()),
+                      MaterialPageRoute(builder: (context) => const HostedSessionPaymentPage()),
                     );
                   },
-                  child: const Text('Google Pay'),
+                  child: const Text('Make Payment with HostedSession'),
                 ),
               ],
             ),
